@@ -7,8 +7,8 @@ public class DBStorage {
     public static final String DB_DRIVER = "org.postgresql.Driver";
     public static final String DB_URL = "jdbc:postgresql://127.0.0.1:5432/phonebook";
     // Database credentials
-    public static final String USER = "mykyta";
-    public static final String PASS = "agent005";
+    public static final String USER = "123";
+    public static final String PASS = "123";
 
     public void insertNameIntoTable() throws SQLException {
         Connection dbConnection = null;
