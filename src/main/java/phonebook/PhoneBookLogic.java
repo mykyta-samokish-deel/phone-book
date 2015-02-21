@@ -20,7 +20,7 @@ public class PhoneBookLogic {
     public void saveToDB() {
         try {
             dataBase.insertNameIntoTable();
-            dataBase.insertPhoneIntoTable();
+            dataBase.insertDataIntoTable();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }

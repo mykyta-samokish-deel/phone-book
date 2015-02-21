@@ -14,7 +14,7 @@ public class DBStorage {
         Connection dbConnection = null;
         PreparedStatement preparedStatement = null;
 
-        String insertTableSQL = "INSERT INTO pb_contacts "
+        String insertTableSQL = "INSERT INTO pb_users "
                 + "(first_name, last_name) VALUES "
                 + "(?,?)";
 
@@ -41,21 +41,23 @@ public class DBStorage {
         }
     }
 
-    public void insertPhoneIntoTable() throws SQLException {
+    public void insertDataIntoTable() throws SQLException {
         Connection dbConnection = null;
         PreparedStatement preparedStatement = null;
 
-        String insertTableSQL = "INSERT INTO pb_phones "
-                + "(phone, user_id) VALUES "
-                + "(?,  "
-                + "(SELECT user_id FROM pb_contacts WHERE last_name = ?) )";
+        String insertTableSQL = "INSERT INTO pb_users_data "
+                + "(phone, mail, address, user_id) VALUES "
+                + "(?, ?, ?,  "
+                + "(SELECT user_id FROM pb_users WHERE last_name = ?) )";
 
         try {
             dbConnection = getDBConnection();
             preparedStatement = dbConnection.prepareStatement(insertTableSQL);
 
             preparedStatement.setString(1, "+530 7230 6494");
-            preparedStatement.setString(2, "Samokish");
+            preparedStatement.setString(2, "nikita.samokish@gmail.com");
+            preparedStatement.setString(3, "La Montana 2, F40");
+            preparedStatement.setString(4, "Samokish");
 
             // execute insert SQL statement
             preparedStatement.executeUpdate();
@@ -76,7 +78,7 @@ public class DBStorage {
         Connection dbConnection = null;
         PreparedStatement preparedStatement = null;
 
-        String updateTableSQL = "UPDATE pb_contacts SET first_name = ? "
+        String updateTableSQL = "UPDATE pb_users SET first_name = ? "
                 + " WHERE first_name = ?";
 
         try {
@@ -106,7 +108,7 @@ public class DBStorage {
         Connection dbConnection = null;
         PreparedStatement preparedStatement = null;
 
-        String deleteSQL = "DELETE FROM pb_contacts WHERE last_name = ?";
+        String deleteSQL = "DELETE FROM pb_users WHERE last_name = ?";
 
         try {
             dbConnection = getDBConnection();
@@ -133,9 +135,9 @@ public class DBStorage {
         Connection dbConnection = null;
         PreparedStatement preparedStatement = null;
 
-        String selectSQL = "SELECT * FROM pb_contacts "
-                + "INNER JOIN pb_phones "
-                + "ON pb_contacts.user_id = pb_phones.user_id";
+        String selectSQL = "SELECT * FROM pb_users "
+                + "INNER JOIN pb_users_data "
+                + "ON pb_users.user_id = pb_users_data.user_id";
 
         try {
             dbConnection = getDBConnection();
@@ -149,10 +151,14 @@ public class DBStorage {
                 String firstName = rs.getString("first_name");
                 String lastName = rs.getString("last_name");
                 String phone = rs.getString("phone");
+                String mail = rs.getString("mail");
+                String address = rs.getString("address");
 
                 System.out.printf("%-2s. ", userId);
                 System.out.printf("%-20s ", firstName);
                 System.out.printf("%-20s ", lastName);
+                System.out.printf("%-30s ", mail);
+                System.out.printf("%-30s ", address);
                 System.out.println(phone);
             }
 
